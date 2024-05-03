@@ -61,6 +61,20 @@ const TopRatedDoctors = async() => {
             </Grid>
           ))}
         </Grid>
+        <Box
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          <Button
+            variant="outlined"
+            sx={{
+              marginTop: "20px",
+            }}
+          >
+            View ALL
+          </Button>
+        </Box>
         </Container>
         </Box>
     );
