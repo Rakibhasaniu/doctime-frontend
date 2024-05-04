@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Button,
@@ -10,10 +11,60 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { modifyPayload } from "@/utils/modifyPayloads";
+import { registerPatient } from "@/service/actions/registerPatient";
+import { userLogin } from "@/service/actions/userLogin";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+
+interface IPatientData {
+  name: string;
+  email: string;
+  contactNumber: string;
+  address: string;
+}
+interface IPatientRegisterFormData {
+  password: string;
+  patient: IPatientData;
+}
 
 const RegisterPage = () => {
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IPatientRegisterFormData>();
+  const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
+    // console.log(data);
+    const data = modifyPayload(values);
+    // console.log(data);
+    try {
+      const res = await registerPatient(data);
+      console.log(res);
+      if (res?.data?.id) {
+        toast.success(res?.message);
+        router.push("/login");
+        // const result = await userLogin({
+        //   password: values.password,
+        //   email: values.patient.email,
+        // });
+        // if (result?.data?.accessToken) {
+        //   storeUserInfo({ accessToken: result?.data?.accessToken });
+        //   router.push("/");
+        // }
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
   return (
-    <Container sx={{ padding: "50px" }}>
+    <Container>
       <Stack
         sx={{
           justifyContent: "center",
@@ -35,7 +86,7 @@ const RegisterPage = () => {
             sx={{
               justifyContent: "center",
               alignItems: "center",
-              // height:"100vh"
+              // height: "100vh",
             }}
           >
             <Box>
@@ -53,14 +104,16 @@ const RegisterPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} my={1}>
                 <Grid item md={12}>
                   <TextField
                     label="Name"
+                    type="name"
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("patient.name")}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -70,6 +123,7 @@ const RegisterPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("patient.email")}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -79,6 +133,7 @@ const RegisterPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("password")}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -88,6 +143,7 @@ const RegisterPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("patient.contactNumber")}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -97,10 +153,15 @@ const RegisterPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("patient.address")}
                   />
                 </Grid>
               </Grid>
-              <Button sx={{ margin: "10px 0px" }} fullWidth={true}>
+              <Button
+                sx={{ margin: "10px 0px" }}
+                fullWidth={true}
+                type="submit"
+              >
                 Register
               </Button>
               <Typography component="p" fontWeight={300}>
