@@ -18,7 +18,7 @@ const RegisterPage = () => {
         sx={{
           justifyContent: "center",
           alignItems: "center",
-          // height:"100vh"
+          height: "100vh",
         }}
       >
         <Box
@@ -28,6 +28,7 @@ const RegisterPage = () => {
             boxShadow: 1,
             borderRadius: 1,
             p: 4,
+            textAlign: "center",
           }}
         >
           <Stack
