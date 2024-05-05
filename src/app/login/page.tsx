@@ -12,9 +12,11 @@ import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import { toast } from "sonner";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import { userLogin } from "@/service/actions/userLogin";
+import { storeUserInfo } from "@/service/auth.service";
 
 export type FormValues = {
   email: string;
@@ -30,19 +32,19 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  //   const onSubmit: SubmitHandler<FormValues> = async (values) => {
-  //     // console.log(values);
-  //     try {
-  //       const res = await userLogin(values);
-  //       if (res?.data?.accessToken) {
-  //         // toast.success(res?.message);
-  //         storeUserInfo({ accessToken: res?.data?.accessToken });
-  //         router.push("/");
-  //       }
-  //     } catch (err: any) {
-  //       console.error(err.message);
-  //     }
-  //   };
+    const onSubmit: SubmitHandler<FormValues> = async (values) => {
+      // console.log(values);
+      try {
+        const res = await userLogin(values);
+        if (res?.data?.accessToken) {
+          toast.success(res?.message);
+          storeUserInfo({ accessToken: res?.data?.accessToken });
+          router.push("/");
+        }
+      } catch (err: any) {
+        console.error(err.message);
+      }
+    };
 
   return (
     <Container>
@@ -79,7 +81,7 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
                   <TextField
