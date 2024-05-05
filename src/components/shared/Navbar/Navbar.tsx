@@ -1,7 +1,17 @@
+"use client"
+import { getUserInfo, isLoggedIn, removeUser } from "@/service/auth.service";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+  const userInfo = getUserInfo()
+
+  const handleLogout  = () => {
+    removeUser();
+    router.refresh();
+  }
   return (
     <Container>
       <Stack
@@ -28,9 +38,12 @@ const Navbar = () => {
           <Typography>NGOs</Typography>
         </Stack>
 
-        <Button component={Link} href="/login">
+       {userInfo?.userId ? (<Button onClick={handleLogout} color="error">
+          LogOut
+        </Button>) : (<Button component={Link} href="/login">
           Login
-        </Button>
+        </Button>)}
+        
       </Stack>
     </Container>
   );
