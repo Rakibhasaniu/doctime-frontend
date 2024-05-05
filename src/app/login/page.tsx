@@ -11,28 +11,29 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import { userLogin } from "@/service/actions/userLogin";
 import { storeUserInfo } from "@/service/auth.service";
+import DtForm from "@/components/forms/DtForm";
+import DtInput from "@/components/forms/DtInput";
 
-export type FormValues = {
-  email: string;
-  password: string;
-};
+// export type FormValues = {
+//   email: string;
+//   password: string;
+// };
 
 const LoginPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<FormValues>();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   formState: { errors },
+  // } = useForm<FormValues>();
 
-    const onSubmit: SubmitHandler<FormValues> = async (values) => {
+    const handleLogin = async (values:FieldValues) => {
       // console.log(values);
       try {
         const res = await userLogin(values);
@@ -81,26 +82,28 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <DtForm onSubmit={handleLogin}>
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
-                  <TextField
+                  <DtInput
+                    name="email"
                     label="Email"
                     type="email"
-                    variant="outlined"
-                    size="small"
+                    // variant="outlined"
+                    // size="small"
                     fullWidth={true}
-                    {...register("email")}
+                    // {...register("email")}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <DtInput
+                    name="password"
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
+                    // variant="outlined"
+                    // size="small"
                     fullWidth={true}
-                    {...register("password")}
+                    // {...register("password")}
                   />
                 </Grid>
               </Grid>
@@ -122,7 +125,7 @@ const LoginPage = () => {
                 Don&apos;t have an account?{" "}
                 <Link href="/register">Create an account</Link>
               </Typography>
-            </form>
+            </DtForm>
           </Box>
         </Box>
       </Stack>

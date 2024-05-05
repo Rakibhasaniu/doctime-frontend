@@ -1,17 +1,18 @@
 "use client"
-import { getUserInfo, isLoggedIn, removeUser } from "@/service/auth.service";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const router = useRouter();
-  const userInfo = getUserInfo()
+  const AuthButton=dynamic(()=> import("@/components/ui/HomePage/AuthButton/AuthButton"),{ssr:false})
+  // const router = useRouter();
+  // const userInfo = getUserInfo()
 
-  const handleLogout  = () => {
-    removeUser();
-    router.refresh();
-  }
+  // const handleLogout  = () => {
+  //   removeUser();
+  //   router.refresh();
+  // }j
   return (
     <Container>
       <Stack
@@ -38,11 +39,12 @@ const Navbar = () => {
           <Typography>NGOs</Typography>
         </Stack>
 
-       {userInfo?.userId ? (<Button onClick={handleLogout} color="error">
+       {/* {userInfo?.userId ? (<Button onClick={handleLogout} color="error">
           LogOut
         </Button>) : (<Button component={Link} href="/login">
           Login
-        </Button>)}
+        </Button>)} */}
+        <AuthButton />
         
       </Stack>
     </Container>
