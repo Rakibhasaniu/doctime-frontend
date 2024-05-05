@@ -20,6 +20,7 @@ import DtForm from "@/components/forms/DtForm";
 import DtInput from "@/components/forms/DtInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 // export type FormValues = {
 //   email: string;
@@ -32,6 +33,7 @@ export const validationSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+  const [error,setError] = useState("")
   // const {
   //   register,
   //   handleSubmit,
@@ -47,6 +49,8 @@ const LoginPage = () => {
           toast.success(res?.message);
           storeUserInfo({ accessToken: res?.data?.accessToken });
           router.push("/");
+        } else {
+          setError(res?.message)
         }
       } catch (err: any) {
         console.error(err.message);
@@ -87,6 +91,21 @@ const LoginPage = () => {
               </Typography>
             </Box>
           </Stack>
+          {error && (
+            <Box>
+              <Typography
+                sx={{
+                  backgroundColor: "red",
+                  padding: "1px",
+                  borderRadius: "2px",
+                  color: "white",
+                  marginTop: "5px",
+                }}
+              >
+                {error}
+              </Typography>
+            </Box>
+          )}
           <Box>
             <DtForm onSubmit={handleLogin} resolver={zodResolver(validationSchema)} defaultValues={{
                 email: "",
