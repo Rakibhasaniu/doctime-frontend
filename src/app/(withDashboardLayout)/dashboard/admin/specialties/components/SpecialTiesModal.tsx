@@ -1,6 +1,11 @@
+import DtForm from '@/components/forms/DtForm';
+import DtInput from '@/components/forms/DtInput';
+import FileUploader from '@/components/forms/FileUploader';
 import Modal from '@/components/shared/Modal/Modal';
-import { TextField } from '@mui/material';
+import { modifyPayload } from '@/utils/modifyPayloads';
+import { Button, Grid, TextField } from '@mui/material';
 import React from 'react';
+import { FieldValues } from 'react-hook-form';
 
 type TProps = {
     open: boolean;
@@ -8,8 +13,29 @@ type TProps = {
 }
 
 const SpecialTiesModal = ({open,setOpen}:TProps) => {
-    return <Modal open={open} setOpen={setOpen} title="Create Specialties" >
-        <TextField />
+
+    const handleCreateSpecialties = (values:FieldValues) => {
+        // console.log(values)
+        const data = modifyPayload(values);
+        try{
+            
+        }catch(err:any){
+            console.log(err?.message)
+        }
+    }
+
+    return <Modal open={open} setOpen={setOpen} title="Create A New Specialties" >
+        <DtForm onSubmit={handleCreateSpecialties}>
+            <Grid container spacing={2}>
+                    <Grid item md={6}>
+                    <DtInput name="title" label="title" />
+                    </Grid>
+                    <Grid item md={6}>
+                    <FileUploader name="file" label="Upload File" />
+                    </Grid>
+            </Grid>
+            <Button sx={{mt:1}} type="submit" >Create Specialties</Button>
+        </DtForm>
     </Modal>
 };
 

@@ -27,7 +27,7 @@ type TModalProps = {
   sx?:SxProps;
 }
 
-export default function Modal({open,setOpen,title,children,sx}:TModalProps) {
+export default function Modal({open=false,setOpen,title="",children,sx}:TModalProps) {
 
   
   const handleClose = () => {
