@@ -17,9 +17,10 @@ const doctorApi = baseApi.injectEndpoints({
             
         }),
         getDoctor:build.query({
-            query:() => ({
+            query:(arg:Record<string,any>) => ({
                 url:'/doctor',
                 method:'GET',
+                params:arg
             }),
             transformResponse:(response:IDoctor ,meta:IMeta) => {
               return{
