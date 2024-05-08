@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
 import { toast } from "sonner";
+import { IDoctor } from "@/types/doctor";
 
 
 
@@ -25,6 +26,7 @@ const DoctorsPage = () => {
 
     // console.log(data)
     const doctors = data?.doctors;
+    
     const meta = data?.meta;
     console.log(doctors)
 

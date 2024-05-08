@@ -22,7 +22,7 @@ const doctorApi = baseApi.injectEndpoints({
                 method:'GET',
                 params:arg
             }),
-            transformResponse:(response:IDoctor ,meta:IMeta) => {
+            transformResponse:(response:IDoctor[] ,meta:IMeta) => {
               return{
                 doctors:response,
                 meta
