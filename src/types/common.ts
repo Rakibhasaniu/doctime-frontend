@@ -34,3 +34,4 @@ export type IMeta = {
     message: string;
   };
   
+export const Gender = ["MALE","FEMALE"]
