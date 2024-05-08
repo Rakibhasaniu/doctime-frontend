@@ -7,6 +7,7 @@ import { modifyPayload } from '@/utils/modifyPayloads';
 import { Button, Grid, TextField } from '@mui/material';
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type TProps = {
     open: boolean;
@@ -21,8 +22,12 @@ const SpecialTiesModal = ({open,setOpen}:TProps) => {
         // console.log(values)
         const data = modifyPayload(values);
         try{
-            const res = await createSpecialties(data);
-            console.log(res)
+            const res = await createSpecialties(data).unwrap();
+            // console.log(res)
+            if(res?.id){
+                toast.success("Specialties created successfully")
+                setOpen(false);
+            }
         }catch(err:any){
             console.log(err?.message)
         }
