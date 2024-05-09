@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
 import { toast } from "sonner";
 import { IDoctor } from "@/types/doctor";
+import { useDebounced } from "@/redux/hooks";
 
 
 
@@ -19,7 +20,16 @@ const DoctorsPage = () => {
     const [searchTerm,setSearchTerm] = useState<string>("")
     // console.log(searchTerm)
 
+   const debouncedTerm = useDebounced({
+    searchQuery:searchTerm,
+    delay:600,
+   })
+   if(!!debouncedTerm){
     query["searchTerm"]=searchTerm
+
+   }
+
+    // query["searchTerm"]=searchTerm
 
     const {data,isLoading} = useGetDoctorQuery({...query});
     const [deleteDoctor] = useDeleteDoctorMutation();
@@ -28,7 +38,7 @@ const DoctorsPage = () => {
     const doctors = data?.doctors;
     
     const meta = data?.meta;
-    console.log(doctors)
+    // console.log(doctors)
 
     const handleDelete = async (id: string) => {
         // console.log(id);
