@@ -9,7 +9,7 @@ import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
 import dayjs from "dayjs";
 import { ISchedule } from "@/types/schedule";
 import { dateFormatter } from "@/utils/dateFormatter";
-
+import EditIcon from "@mui/icons-material/Edit"
 const SchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [allSchedule, setAllSchedule] = useState<any>([]);
@@ -18,7 +18,7 @@ const SchedulesPage = () => {
   const schedules = data?.schedules;
   const meta = data?.meta;
 
-  console.log(schedules);
+  // console.log(schedules);
 
   useEffect(() => {
     const updateData = schedules?.map((schedule: ISchedule) => {
@@ -46,9 +46,17 @@ const SchedulesPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
+          <Box>
+
           <IconButton aria-label="delete">
             <DeleteIcon sx={{ color: "red" }} />
           </IconButton>
+          <IconButton aria-label="delete">
+            <EditIcon sx={{}} />
+          </IconButton>
+          </Box>
+
+          
         );
       },
     },
