@@ -2,7 +2,7 @@
 import { Box, Button, Stack, TextField,IconButton } from "@mui/material";
 import DoctorModal from "./components/DoctorModal";
 import { useState } from "react";
-import { useGetDoctorQuery,useDeleteDoctorMutation } from "@/redux/api/doctorsApi";
+import { useGetAllDoctorQuery,useDeleteDoctorMutation } from "@/redux/api/doctorsApi";
 import { DataGrid ,GridColDef} from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -31,7 +31,7 @@ const DoctorsPage = () => {
 
     // query["searchTerm"]=searchTerm
 
-    const {data,isLoading} = useGetDoctorQuery({...query});
+    const {data,isLoading} = useGetAllDoctorQuery({...query});
     const [deleteDoctor] = useDeleteDoctorMutation();
 
     // console.log(data)
