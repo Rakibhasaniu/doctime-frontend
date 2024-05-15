@@ -44,7 +44,7 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
    const [createDoctorSchedule, { isLoading }] =
       useCreateDoctorScheduleMutation();
 
-   console.log(selectedScheduleIds);
+   // console.log(selectedScheduleIds);
 
    const onSubmit = async () => {
       try {

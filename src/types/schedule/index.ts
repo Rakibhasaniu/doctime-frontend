@@ -1,6 +1,7 @@
 export type ISchedule = {
     id?: string;
     startDate: string;
+    // doctorId?:string;
     endDate: string;
   };
   
