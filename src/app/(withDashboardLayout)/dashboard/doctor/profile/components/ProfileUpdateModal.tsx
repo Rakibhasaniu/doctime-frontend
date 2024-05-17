@@ -63,7 +63,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
          })
       );
 
-      console.log({ id });
+      // console.log({ id });
       // return;
 
       const excludedFields: Array<keyof typeof values> = [
