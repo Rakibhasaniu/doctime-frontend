@@ -8,18 +8,35 @@ import { dateFormatter } from '@/utils/dateFormatter';
 import { ISchedule } from '@/types/schedule';
 import dayjs from 'dayjs';
 import { useGetAllDoctorSchedulesQuery } from '@/redux/api/doctorScheduleApi';
+import Pagination from '@mui/material/Pagination';
+
 
 const DoctorSchedulesPage = () => {
    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+   const query:Record<string,any> = {}
+   const [page, setPage] = useState(1)
+   const [limit, setLimit] = useState(5)
+
+   query["page"]=page;
+   query["limit"]=limit;
+
 
    const [allSchedule, setAllSchedule] = useState<any>([]);
-   const { data, isLoading } = useGetAllDoctorSchedulesQuery({});
-   // console.log("daaaata",data);
+   const { data, isLoading } = useGetAllDoctorSchedulesQuery({...query});
 
    const schedules = data?.doctorSchedules;
    const meta = data?.meta;
 
-   // console.log(schedules);
+
+   let pageCount:number;
+   if(meta?.total){
+      pageCount=Math.ceil(meta?.total / limit)
+   }
+
+   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+      setPage(value);
+    };
+
 
    useEffect(() => {
       const updateData = schedules?.map(
@@ -68,7 +85,15 @@ const DoctorSchedulesPage = () => {
          <Box>
             {!isLoading ? (
                <Box my={2}>
-                  <DataGrid rows={allSchedule ?? []} columns={columns} />
+                  <DataGrid rows={allSchedule ?? []} columns={columns} hideFooterP 
+                  slots={{
+                     footer:()=> {
+                        return <Box>
+                           <Pagination count={pageCount} page={page} onChange={handleChange} />
+                        </Box>
+                     }
+                  }}
+                  />
                </Box>
             ) : (
                <h1>Loading.....</h1>

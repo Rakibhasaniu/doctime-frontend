@@ -1,8 +1,9 @@
 export type ISchedule = {
     id?: string;
     startDate: string;
-    // doctorId?:string;
+    doctorId?:string;
     endDate: string;
+    // schedule:string;
   };
   
   export type IScheduleFrom = {
