@@ -9,6 +9,7 @@ import { ISchedule } from '@/types/schedule';
 import dayjs from 'dayjs';
 import { useGetAllDoctorSchedulesQuery } from '@/redux/api/doctorScheduleApi';
 import Pagination from '@mui/material/Pagination';
+import AddIcon from '@mui/icons-material/Add'
 
 
 const DoctorSchedulesPage = () => {
@@ -19,6 +20,7 @@ const DoctorSchedulesPage = () => {
 
    query["page"]=page;
    query["limit"]=limit;
+   // console.log(page)
 
 
    const [allSchedule, setAllSchedule] = useState<any>([]);
@@ -42,8 +44,8 @@ const DoctorSchedulesPage = () => {
       const updateData = schedules?.map(
          (schedule: ISchedule, index: number) => {
             return {
-               sl: index + 1,
-               id: schedule?.doctorId,
+               // sl: index + 1,
+               id: schedule?.scheduleId,
                startDate: dateFormatter(schedule?.schedule?.startDate),
                startTime: dayjs(schedule?.startDate).format('hh:mm a'),
                endTime: dayjs(schedule?.endDate).format('hh:mm a'),
@@ -54,7 +56,7 @@ const DoctorSchedulesPage = () => {
    }, [schedules]);
 
    const columns: GridColDef[] = [
-      { field: 'sl', headerName: 'SL' },
+      // { field: 'sl', headerName: 'SL' },
       { field: 'startDate', headerName: 'Date', flex: 1 },
       { field: 'startTime', headerName: 'Start Time', flex: 1 },
       { field: 'endTime', headerName: 'End Time', flex: 1 },
@@ -76,7 +78,7 @@ const DoctorSchedulesPage = () => {
 
    return (
       <Box>
-         <Button onClick={() => setIsModalOpen(true)}>
+         <Button onClick={() => setIsModalOpen(true)} endIcon={<AddIcon />}>
             Create Doctor Schedule
          </Button>
          <DoctorScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
@@ -85,11 +87,11 @@ const DoctorSchedulesPage = () => {
          <Box>
             {!isLoading ? (
                <Box my={2}>
-                  <DataGrid rows={allSchedule ?? []} columns={columns} hideFooterP 
+                  <DataGrid rows={allSchedule ?? []} columns={columns} hideFooterPagination
                   slots={{
                      footer:()=> {
-                        return <Box>
-                           <Pagination count={pageCount} page={page} onChange={handleChange} />
+                        return <Box sx={{mb:2, display:'flex',justifyContent:'center'}} >
+                           <Pagination color='primary'  count={pageCount} page={page} onChange={handleChange} />
                         </Box>
                      }
                   }}

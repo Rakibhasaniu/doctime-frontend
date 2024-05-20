@@ -1,9 +1,11 @@
 export type ISchedule = {
+  [x: string]: any;
     id?: string;
     startDate: string;
     doctorId?:string;
     endDate: string;
-    // schedule:string;
+    schedule:string;
+    scheduleId?:string;
   };
   
   export type IScheduleFrom = {
